@@ -1,13 +1,11 @@
 from Cuzhi import Cuzhi
 from Round import Round
 from cuzhi_data import cuzhi_data
-from random import random
-import math
 
 # c1 = cuzhi_data[math.floor(random() * 50)]
 # c2 = cuzhi_data[math.floor(random() * 50)]
-c1 = cuzhi_data[0]
-c2 = cuzhi_data[5]
+c1 = cuzhi_data[-8]
+c2 = cuzhi_data[-15]
 
 c1_count = 0
 c2_count = 0

@@ -21,7 +21,7 @@ class Round:
             self.loser = loser
 
     @staticmethod
-    def roll_probability(probability: float) -> bool:
+    def _roll_probability(probability: float) -> bool:
         return random.random() < probability
 
     def _attack(self, attacker: Cuzhi, defender: Cuzhi, attack_type: AttackType,
@@ -38,10 +38,10 @@ class Round:
 
     @staticmethod
     def _jishang(attacker: Cuzhi, defender: Cuzhi):
-        if Round.roll_probability(attacker.jishanggailv) and Round.roll_probability(
+        if Round._roll_probability(attacker.jishanggailv) and Round._roll_probability(
                 attacker.jishanggailv):
-            if Round.roll_probability(Constants.JISHANG_NAILI_DOUXING):
-                if Round.roll_probability(0.5):
+            if Round._roll_probability(Constants.JISHANG_NAILI_DOUXING):
+                if Round._roll_probability(0.5):
                     defender.naili -= Constants.JISHANG_NAILI_DOUXING_VALUE
                 else:
                     defender.douxing -= Constants.JISHANG_NAILI_DOUXING_VALUE
@@ -72,16 +72,16 @@ class Round:
     def _decide_xianshou(self):
         res = self._compare_qishi()
         if res == Result.ONE_WIN:
-            c1_xianshou = Round.roll_probability(Constants.XIANSHOU_QISHI_DIFF)
+            c1_xianshou = Round._roll_probability(Constants.XIANSHOU_QISHI_DIFF)
         elif res == Result.TWO_WIN:
-            c1_xianshou = Round.roll_probability(1 - Constants.XIANSHOU_QISHI_DIFF)
+            c1_xianshou = Round._roll_probability(1 - Constants.XIANSHOU_QISHI_DIFF)
         else:
-            c1_xianshou = Round.roll_probability(Constants.XIANSHOU_QISHI_SAME)
+            c1_xianshou = Round._roll_probability(Constants.XIANSHOU_QISHI_SAME)
         return c1_xianshou
 
     def _zhuiji(self, attacker: Cuzhi, defender: Cuzhi):
         self._attack(attacker, defender, AttackType.YAQIAN)
-        if Round.roll_probability(defender.fanjigailv):
+        if Round._roll_probability(defender.fanjigailv):
             self._attack(defender, attacker, AttackType.JIAOLI)
 
     def _main_phase(self, attacker: Cuzhi, defender: Cuzhi):
@@ -94,14 +94,14 @@ class Round:
             else:
                 attack_type = AttackType.JIAOLI
 
-            successfully_defended = Round.roll_probability(defender.gedanggailv)
+            successfully_defended = Round._roll_probability(defender.gedanggailv)
 
             self._attack(attacker, defender, attack_type, successfully_defended)
 
             if fanji:
                 self._attack(attacker, defender, AttackType.QISHI, successfully_defended)
 
-            if Round.roll_probability(attacker.baojigailv):
+            if Round._roll_probability(attacker.baojigailv):
                 if not fanji:
                     self._attack(attacker, defender, AttackType.QISHI,
                                  successfully_defended)
@@ -110,7 +110,7 @@ class Round:
             if not successfully_defended:
                 Round._jishang(attacker, defender)
 
-            if Round.roll_probability(defender.fanjigailv):
+            if Round._roll_probability(defender.fanjigailv):
                 fanji = True
                 attacker, defender = defender, attacker
                 defender_half = not defender_half
